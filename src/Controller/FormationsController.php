@@ -16,6 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class FormationsController extends AbstractController {
 
     /**
+     * Lien pour la page formations
+     */
+    private const LIENFORMATIONS = "pages/formations.html.twig";
+    
+    /**
      * 
      * @var FormationRepository
      */
@@ -39,7 +44,7 @@ class FormationsController extends AbstractController {
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(self::LIENFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -53,9 +58,12 @@ class FormationsController extends AbstractController {
      * @return Response
      */
     public function sort($champ, $ordre, $table=""): Response{
-        $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
-        $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        if ($table ==""){
+            $formations = $this->formationRepository->findAllOrderBy($champ, $ordre);
+        }else{
+            $formations = $this->formationRepository->findAllOrderByTable($champ, $ordre, $table);
+        }        $categories = $this->categorieRepository->findAll();
+        return $this->render(self::LIENFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -72,7 +80,7 @@ class FormationsController extends AbstractController {
         $valeur = $request->get("recherche");
         $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(self::LIENFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,

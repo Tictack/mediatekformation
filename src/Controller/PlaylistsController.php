@@ -17,6 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class PlaylistsController extends AbstractController {
     
     /**
+     * Lien pour la page playlists
+     */
+    private const LIENPLAYLISTS = "pages/playlists.html.twig";
+    
+    /**
      * 
      * @var PlaylistRepository
      */
@@ -49,7 +54,7 @@ class PlaylistsController extends AbstractController {
     public function index(): Response{
         $playlists = $this->playlistRepository->findAllOrderBy('name', 'ASC');
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/playlists.html.twig", [
+        return $this->render(self::LIENPLAYLISTS, [
             'playlists' => $playlists,
             'categories' => $categories            
         ]);
@@ -64,7 +69,7 @@ class PlaylistsController extends AbstractController {
     public function sort($champ, $ordre): Response{
         $playlists = $this->playlistRepository->findAllOrderBy($champ, $ordre);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/playlists.html.twig", [
+        return $this->render(self::LIENPLAYLISTS, [
             'playlists' => $playlists,
             'categories' => $categories            
         ]);
@@ -79,9 +84,13 @@ class PlaylistsController extends AbstractController {
      */
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
-        $playlists = $this->playlistRepository->findByContainValue($champ, $valeur, $table);
+        if($table==""){
+            $playlists = $this->playlistRepository->findByContainValue($champ, $valeur);
+        }else{
+            $playlists = $this->playlistRepository->findByContainValueWTable($champ, $valeur, $table);
+        }
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/playlists.html.twig", [
+        return $this->render(self::LIENPLAYLISTS, [
             'playlists' => $playlists,
             'categories' => $categories,            
             'valeur' => $valeur,

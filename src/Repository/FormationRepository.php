@@ -46,19 +46,26 @@ class FormationRepository extends ServiceEntityRepository
      * @param type $table si $champ dans une autre table
      * @return Formation[]
      */
-    public function findAllOrderBy($champ, $ordre, $table=""): array{
-        if($table==""){
-            return $this->createQueryBuilder('f')
-                    ->orderBy('f.'.$champ, $ordre)
-                    ->getQuery()
-                    ->getResult();
-        }else{
-            return $this->createQueryBuilder('f')
-                    ->join('f.'.$table, 't')
-                    ->orderBy('t.'.$champ, $ordre)
-                    ->getQuery()
-                    ->getResult();            
-        }
+    public function findAllOrderByTable($champ, $ordre, $table): array{
+        return $this->createQueryBuilder('f')
+                ->join('f.'.$table, 't')
+                ->orderBy('t.'.$champ, $ordre)
+                ->getQuery()
+                ->getResult();
+    }
+    
+    /**
+     * Retourne toutes les formations triées sur un champ
+     * @param type $champ
+     * @param type $ordre
+     * @return Formation[]
+     */
+    public function findAllOrderBy($champ, $ordre): array{
+        return $this->createQueryBuilder('f')
+                ->orderBy('f.'.$champ, $ordre)
+                ->getQuery()
+                ->getResult();
+        
     }
 
     /**

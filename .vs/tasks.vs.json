@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "tâche-mediatekformation",
+      "appliesTo": "/",
+      "type": "launch"
+    },
+    {
+      "taskLabel": "tâche-mediatekformation",
+      "appliesTo": "/",
+      "type": "launch"
+    }
+  ]
+}
