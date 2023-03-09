@@ -7,6 +7,8 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
@@ -164,5 +166,20 @@ class Formation
         $this->categories->removeElement($category);
 
         return $this;
+    }
+    
+    /**
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        $date = strtotime($this->getPublishedAtString()); 
+        $now = strtotime(date("Y-m-d"));
+        if($date>$now){
+            $context->buildViolation("Cette date est posterieure à aujourd'hui")
+                    ->atPath('publishedAt')
+                    ->addViolation();
+        }
     }
 }
