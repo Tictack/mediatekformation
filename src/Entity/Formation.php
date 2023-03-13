@@ -175,7 +175,7 @@ class Formation
     public function validate(ExecutionContextInterface $context)
     {
         $date = strtotime($this->getPublishedAtString()); 
-        $now = strtotime(date("Y-m-d"));
+        $now = strtotime(date("d/m/Y"));
         if($date>$now){
             $context->buildViolation("Cette date est posterieure à aujourd'hui")
                     ->atPath('publishedAt')
