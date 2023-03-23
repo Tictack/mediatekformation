@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
@@ -174,12 +175,17 @@ class Formation
      */
     public function validate(ExecutionContextInterface $context)
     {
-        $date = strtotime($this->getPublishedAtString()); 
-        $now = strtotime(date("d/m/Y"));
+        $date = $this->getPublishedAtString(); 
+        $now = date("d/m/Y");
         if($date>$now){
             $context->buildViolation("Cette date est posterieure à aujourd'hui")
                     ->atPath('publishedAt')
                     ->addViolation();
         }
+    }
+    
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('publishedAt', new Assert\LessThan('today'));
     }
 }
