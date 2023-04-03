@@ -4,7 +4,6 @@ namespace App\Controller\admin;
 
 use App\Entity\Categorie;
 use App\Repository\CategorieRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * Description of AdminCategorieController
+ * Controleur des categories en mode administrateur
  *
  * @author vince
  */
@@ -23,6 +22,10 @@ class AdminCategorieController extends AbstractController{
      */
     private $categorieRepository;
     
+    /**
+     * 
+     * @param CategorieRepository $categorieRepository
+     */
     function __construct(CategorieRepository $categorieRepository) {
         $this->categorieRepository= $categorieRepository;
     }

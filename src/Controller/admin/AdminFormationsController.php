@@ -12,12 +12,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AdminFormationsController
+ * Controleur des formations en mode administrateur
  *
  * @author vince
  */
 class AdminFormationsController extends AbstractController {
 
+    /**
+     * Lien pour la page admin.formations
+     */
     private const LIENADMINFORMATIONS = "admin/admin.formations.html.twig";
 
     /**
@@ -32,6 +35,11 @@ class AdminFormationsController extends AbstractController {
      */
     private $categorieRepository;
 
+    /**
+     * 
+     * @param FormationRepository $formationRepository
+     * @param CategorieRepository $categorieRepository
+     */
     function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository = $categorieRepository;

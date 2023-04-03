@@ -184,8 +184,4 @@ class Formation
         }
     }
     
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('publishedAt', new Assert\LessThan('today'));
-    }
 }
